@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('https://www.shutterstock.com/image-vector/abstract-futuristic-blue-yellow-circle-600nw-2087095282.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+            margin-top: 116px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: rgb(201, 189, 189);
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .back-btn-container {
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-btn-container">
+            <a href="index.html"><button>Back</button></a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Operation ID</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                 <tr>
+                 </tr>
+            </tbody>
+        </table>
+    </div>
+<script>
+ async function getdata()   { 
+        await fetch("http://localhost:3600/operationlist")
+       .then((data)=>data.json())
+       .then((data)=>display(data))
+    
+ 
+   function display(datas)
+        {     let records=''
+            datas.forEach((datas) => {
+                console.log(datas.operations)
+
+               records+=`
+               <tr>
+                <td>${datas.opid}</td>
+                <td>${datas.operationname}</td>
+               </tr>
+               ` 
+            });
+            document.getElementById('tbody').innerHTML=records;
+        }
+        }
+        getdata()
+    </script>
+</body>
+
+</html>

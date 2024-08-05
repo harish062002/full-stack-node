@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+    <title>Document</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('https://www.shutterstock.com/image-vector/abstract-futuristic-blue-yellow-circle-600nw-2087095282.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+        }
+
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        select, input {
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #ratesave {
+            background-color: #28a745;
+        }
+
+        #ratesave:hover {
+            background-color: #218838;
+        }
+
+        .container a button {
+            background-color: #ffc107;
+        }
+
+        .container a button:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+   <div class="container"> 
+     
+
+        <label>Operation Name:</label>
+        <select id="opnames">
+            <option> Painter </option>
+        </select><br><br>
+        
+        <label for="rateperhr">Rate/Hr:</label>
+        <input id="rateperhr" type="number"><br><br>
+
+        <button id="ratesave" onclick="runit()"> Save </button>
+
+        <a href="index.html"><button> Back </button></a>
+   </div>
+<script>
+   let retrieved;
+   async function getdata()   { 
+        await fetch("http://localhost:3600/operationlist")
+       .then((data)=>data.json())
+       .then((data)=>display(data))
+    
+ 
+   function display(datas)
+        {   retrieved=datas
+            let records=''
+            datas.forEach((datas) => {
+
+               records+=`
+
+                <option>${datas.operationname}</option>
+             
+               ` 
+            });
+            document.getElementById('opnames').innerHTML=records;
+        }
+        }
+        getdata()
+    let runit=async()=>{
+        let rateperhr1=document.getElementById('rateperhr').value;
+        let opname1=document.getElementById('opnames').value;
+        let id1;
+        retrieved.forEach((retrieved)=>{
+            if(opname1==retrieved.operationname){
+                id1=retrieved.opid
+            }
+        })
+        console.log(id1)
+        let res=   await fetch("http://localhost:3600/ratecard",{
+            method:"POST",
+            headers:{
+                "content-type":"application/json"
+            },
+            body:JSON.stringify({
+
+                rateperhr:rateperhr1,
+                opname:opname1,
+                id:id1
+
+            })
+        })
+        res.status === 200 ? alert("Data Added Sucessfully") : alert("data not added")
+    }
+</script>
+</body>
+</html>
