@@ -92,7 +92,7 @@
 <script>
    let retrieved;
    async function getdata()   { 
-        await fetch("http://localhost:3600/operationlist")
+        await fetch("http://localhost:3600/api/operationlist")
        .then((data)=>data.json())
        .then((data)=>display(data))
     
