@@ -24,8 +24,6 @@ connection.connect((err)=>{
 app.use('/',require('./routes/root'))
 app.use('/api',require('./routes/api/data'))
 
-
-
 // add new operation to the tbloperation
 app.post('/operation',(req,res)=>{
 let {operationname}=req.body
